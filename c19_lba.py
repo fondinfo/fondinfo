@@ -5,7 +5,7 @@
 """
 
 states = {"Q0", "Q1", "Q2", "Q3", "Q4", "Qf"}
-state = "Q0"
+start = "Q0"
 accepting = {"Qf"}
 alphabet = {"a", "b", "c", "X", "Y", "Z", "$"}
 tape = ["$", "a", "a", "a", "b", "b", "b", "c", "c", "c", "$"]
@@ -27,16 +27,27 @@ transition = {("Q0", "a"): ("Q1", "X", 1),
               ("Q4", "Z"): ("Q4", "Z", 1),
               ("Q4", "$"): ("Qf", "$", 0)}
 
-while state not in accepting:
-    symbol = tape[pos]
-    if symbol not in alphabet:
-        raise ValueError(f"{symbol}∉Σ, Σ={alphabet}")
+def compute(string: str) -> bool:
+    state = start
+    tape = list("$" + string + "$")
+    pos = 1
+    while state not in accepting:
+        symbol = tape[pos]
+        if symbol not in alphabet:
+            raise ValueError(f"{symbol}∉Σ, Σ={alphabet}")
 
-    trans = transition.get((state, symbol), (None, "", 0))
-    new_state, new_symbol, delta = trans
-    print((state, symbol), "→", trans, "§§", tape, pos)
-    tape[pos] = new_symbol
-    state, pos = new_state, pos + delta
-    if not state: break
+        trans = transition.get((state, symbol), (None, "", 0))
+        new_state, new_symbol, delta = trans
+        print((state, symbol), "→", trans, "§§", tape, pos)
+        tape[pos] = new_symbol
+        state, pos = new_state, pos + delta
+        if not state:
+            return False
+        
+    return state in accepting
 
-print("Result:", state in accepting)
+if __name__ == "__main__":
+    string = input("String? ")  # aaabbbccc
+    result = compute(string)
+    print("Result:", result)
+
