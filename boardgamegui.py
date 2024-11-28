@@ -11,10 +11,15 @@ except:
 from boardgame import BoardGame
 
 W, H = 40, 40
+BLACK, GRAY, WHITE = (0, 0, 0), (127, 127, 127), (255, 255, 255)
 
 class BoardGameGui:
-    def __init__(self, game: BoardGame):
+    def __init__(self, game: BoardGame,
+                 commands={"LeftButton": "", "RightButton": "flag"},
+                 annots={"#": (0, GRAY), "!": (2, GRAY)}):
         self._game = game
+        self._commands = commands
+        self._annots = annots
         self.update_buttons()
 
     def tick(self):
@@ -25,39 +30,47 @@ class BoardGameGui:
         if game.finished():
             g2d.alert(game.status())
             g2d.close_canvas()
-        elif "Escape" in released:  # "Escape" key released
+            return
+        if "Escape" in released:  # "Escape" key released
             g2d.close_canvas()
-        elif "LeftButton" in released and y < game.rows():
-            game.play(x, y, "")
-            self.update_buttons((x, y))
-        elif "RightButton" in released and y < game.rows():
-            game.play(x, y, "flag")
-            self.update_buttons((x, y))
+            return
+        for k, v in self._commands.items():
+            if k in released and y < game.rows():
+                game.play(x, y, v)
+                self.update_buttons((x, y))
 
     def update_buttons(self, last_move=None):
         cols, rows = self._game.cols(), self._game.rows()
-        g2d.set_color((0, 0, 0))
-        g2d.draw_rect((0, 0), (cols * W, rows * H + H))
+        g2d.clear_canvas(BLACK)
         for y in range(rows):
             for x in range(cols):
-                gray = 232 if (x, y) == last_move else 255
                 text = self._game.read(x, y)
-                _write(text, (x, y), bg=(gray, gray, gray))
+                self.write(text, (x, y))
         status = self._game.status()
-        _write(status, (0, rows), cols)
+        self.write(status, (0, rows), cols)
         
-def _write(text, pos, cols=1, bg=(255, 255, 255)):
-    x, y = pos
-    g2d.set_color(bg)
-    g2d.draw_rect((x * W + 1, y * H + 1), (cols * W - 2, H - 2))
-    
-    chars = max(1, len(text))
-    fsize = min(0.75 * H, 1.5 * cols * W / chars)
-    center = (x * W + cols * W/2, y * H + H/2)
-    g2d.set_color((0, 0, 0))
-    g2d.draw_text(text, center, fsize)
+    def write(self, text, pos, cols=1):
+        x, y = pos        
+        g2d.set_color(WHITE)
+        g2d.draw_rect((x * W + 1, y * H + 1), (cols * W - 2, H - 2))
+        
+        last = text[-1:]
+        if cols == 1 and last in self._annots:
+            stroke, color = self._annots[last]
+            g2d.set_stroke(stroke)
+            g2d.set_color(color)
+            g2d.draw_circle((x * W + W / 2, y * H + W / 2), min(W, H) / 2 - 2)
+            g2d.set_stroke()
+            text = text[:-1]
+        
+        chars = max(1, len(text))
+        fsize = min(0.75 * H, 1.5 * cols * W / chars)
+        center = (x * W + cols * W/2, y * H + H/2)
+        g2d.set_color(BLACK)
+        g2d.draw_text(text, center, fsize)
 
 def gui_play(game: BoardGame):
     g2d.init_canvas((game.cols() * W, game.rows() * H + H))
     ui = BoardGameGui(game)
     g2d.main_loop(ui.tick)
+
