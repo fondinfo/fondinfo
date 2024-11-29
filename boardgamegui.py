@@ -15,10 +15,10 @@ BLACK, GRAY, WHITE = (0, 0, 0), (127, 127, 127), (255, 255, 255)
 
 class BoardGameGui:
     def __init__(self, game: BoardGame,
-                 commands={"LeftButton": "", "RightButton": "flag"},
+                 actions={"LeftButton": "", "RightButton": "flag"},
                  annots={"#": (0, GRAY), "!": (2, GRAY)}):
         self._game = game
-        self._commands = commands
+        self._actions = actions
         self._annots = annots
         self.update_buttons()
 
@@ -34,7 +34,7 @@ class BoardGameGui:
         if "Escape" in released:  # "Escape" key released
             g2d.close_canvas()
             return
-        for k, v in self._commands.items():
+        for k, v in self._actions.items():
             if k in released and y < game.rows():
                 game.play(x, y, v)
                 self.update_buttons((x, y))
