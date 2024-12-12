@@ -19,8 +19,8 @@ class BoardGame:
 def print_game(game: BoardGame):
     for y in range(game.rows()):
         for x in range(game.cols()):
-            print(game.read(x, y) or "·", end="\t")
-        print()
+            end_ = "\n" if x == game.cols() - 1 else "\t"
+            print(game.read(x, y) or "·", end=end_)
     print(game.status())
 
 def console_play(game: BoardGame):
