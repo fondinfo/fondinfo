@@ -10,8 +10,8 @@ def eratosthenes(num: int) -> list[bool]:
     while (p * p <= num):
         if (prime[p]):
             # all multiples of p are not prime
-            for i in range(p * p, num + 1, p):  # start, stop, step
-                prime[i] = False
+            for i in range(p, num // p + 1):
+                prime[p * i] = False
         p += 1
     return prime
 
@@ -22,5 +22,5 @@ def main():
         for n in range(2, NUM - 2):
             if prime[n] and prime[n + 2]:
                 print(f"{n} {n + 2}", file=pt)
-    
+
 main()
