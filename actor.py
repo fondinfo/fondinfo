@@ -43,6 +43,16 @@ def check_collision(a1: Actor, a2: Actor) -> bool:
             x2 <= x1 + w1 and x1 <= x2 + w2)
 
 
+def check_overlap(a1: Actor, a2: Actor) -> bool:
+    """Similar to `check_collision`, but excluding the simple
+    touch (when actors are adjacent, without any overlap).
+    """
+    x1, y1, w1, h1 = a1.pos() + a1.size()
+    x2, y2, w2, h2 = a2.pos() + a2.size()
+    return (y2 < y1 + h1 and y1 < y2 + h2 and
+            x2 < x1 + w1 and x1 < x2 + w2)
+
+
 class Arena():
     """A generic 2D game, with a given size in pixels and a list of actors.
     """
