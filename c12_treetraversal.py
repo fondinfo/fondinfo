@@ -14,7 +14,7 @@ class TreeNode:
         return f"<{self.data} {self.left} {self.right}>"
 
 def insert(tree, val) -> TreeNode:
-    if tree == None:
+    if tree is None:
         tree = TreeNode(val)
     elif val < tree.data:
         tree.left = insert(tree.left, val)
@@ -44,12 +44,12 @@ t = None
 for v in [7, 5, 5, 9, 6, 2, 3, 11]:
     t = insert(t, v)
 
-print('preorder traversal')
+print("Preorder traversal")
 preorder_traversal(t)
 
-print('inorder traversal')
+print("Inorder traversal")
 inorder_traversal(t)
 
-print('postorder traversal')
+print("Postorder traversal")
 postorder_traversal(t)
 
