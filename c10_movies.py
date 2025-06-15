@@ -20,8 +20,8 @@ from csv import reader
 from operator import itemgetter
 
 TITLE, GENRE, ACTORS, DIRECTORS = 1, 4, 10, 11
-genres : dict[str, int] = {}
-collabs : dict[tuple[str, str], int] = {}
+genres : dict[str, int] = {}  # or: genres = Counter()
+collabs : dict[tuple[str, str], int] = {}  # or: collabs = Counter()
 starwars : set[str] = None
 with open("_movies.csv", encoding="utf-8") as f:
     r = reader(f)
@@ -29,7 +29,7 @@ with open("_movies.csv", encoding="utf-8") as f:
     for m in r:
         movie_genres = m[GENRE].split(",")
         for g in movie_genres:
-            genres[g] = genres.get(g, 0) + 1
+            genres[g] = genres.get(g, 0) + 1  # genres[g] += 1
 
         movie_directors = m[DIRECTORS].split(",")
         movie_actors = m[ACTORS].split(",")
@@ -37,7 +37,7 @@ with open("_movies.csv", encoding="utf-8") as f:
             d = d.split("(")[0]
             for a in movie_actors:
                 k = (d, a)
-                collabs[k] = collabs.get(k, 0) + 1
+                collabs[k] = collabs.get(k, 0) + 1  # collabs[k] += 1
 
         if "Star Wars" in m[TITLE]:
             if starwars == None:
@@ -49,11 +49,11 @@ genres_list = sorted(genres.items(), key=itemgetter(-1), reverse=True)
 collabs_list = sorted(collabs.items(), key=itemgetter(-1), reverse=True)[:10]
 
 print("Genres")
-for k, v in genres_list:
+for k, v in genres_list:  # genres.most_common()
     print(k, v)
 
 print("\nCollabs")
-for k, v in collabs_list:
+for k, v in collabs_list:  # collabs.most_common(10)
     print(k, v)
 
 print("\nStar Wars cast\n", starwars)
