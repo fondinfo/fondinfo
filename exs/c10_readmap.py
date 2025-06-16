@@ -25,7 +25,7 @@ def main():
         for x in range(cols):
             c = board[y][x]
             if c == WALL:
-                w, h = expand_wall(board, x, y)
+                w, h = 1, 1  # w, h = expand_wall(board, x, y)
                 walls.append((x*8, y*8, w*8, h*8))
             elif c == COOKIE:
                 cookies.append((x*8+6, y*8+6))
