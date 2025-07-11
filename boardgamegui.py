@@ -16,7 +16,7 @@ BLACK, GRAY, WHITE = (0, 0, 0), (127, 127, 127), (255, 255, 255)
 class BoardGameGui:
     def __init__(self, game: BoardGame,
                  actions={"LeftButton": "", "RightButton": "flag"},
-                 annots={"#": (0, GRAY), "!": (2, GRAY)}):
+                 annots={"#": (GRAY, 0), "!": (GRAY, 2)}):
         self._game = game
         self._actions = actions
         self._annots = annots
@@ -56,11 +56,9 @@ class BoardGameGui:
         
         last = text[-1:]
         if cols == 1 and last in self._annots:
-            stroke, color = self._annots[last]
-            g2d.set_stroke(stroke)
-            g2d.set_color(color)
+            color, stroke = self._annots[last]
+            g2d.set_color(color, stroke)
             g2d.draw_circle((x * W + W / 2, y * H + W / 2), min(W, H) / 2 - 2)
-            g2d.set_stroke()
             text = text[:-1]
         
         chars = max(1, len(text))

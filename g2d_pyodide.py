@@ -101,14 +101,12 @@ def init_canvas(size: Point, scale=1) -> None:
     set_color((127, 127, 127))
     _curr_keys.clear()
 
-def set_color(color: Color) -> None:
+def set_color(color: Color, width: float=0) -> None:
+    global _stroke
+    _stroke = _ctx.lineWidth = width
     c = _tup(color, 0, 255) + (255,)
     _ctx.strokeStyle = "rgba" + str(c[:3] + (c[3] / 255,))
     _ctx.fillStyle = _ctx.strokeStyle
-
-def set_stroke(width: float=0) -> None:
-    global _stroke
-    _stroke = _ctx.lineWidth = width
 
 def clear_canvas(background: Color=None) -> None:
     if background:

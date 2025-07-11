@@ -46,12 +46,9 @@ def init_canvas(size: Point, scale=1):
 def canvas_size() -> Point:
     return _size
 
-def set_color(color: Color) -> None:
-    global _color
+def set_color(color: Color, width: float=0) -> None:
+    global _color, _stroke
     _color = _tup((list(color) + [255])[:4], 0, 255)
-
-def set_stroke(width: float=0) -> None:
-    global _stroke
     _stroke = int(width)
 
 def clear_canvas(background: Color=None) -> None:
