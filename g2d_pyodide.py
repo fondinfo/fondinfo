@@ -313,4 +313,4 @@ def _g2d_rclick(e: js.event) -> None:
 
 alert = js.alert
 confirm = js.confirm
-prompt = js.prompt
+prompt = lambda msg="": js.prompt(msg) or ""
