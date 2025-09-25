@@ -6,7 +6,7 @@
 
 import sys; sys.path.append("../")
 import g2d, math
-from c04_polar import move_around
+from polar import move_around
 
 W, H = 500, 500
 

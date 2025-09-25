@@ -5,7 +5,7 @@
 """
 
 from random import randrange
-from c04_polar import move_around
+from polar import move_around
 from c07_bounce import Actor, Arena, Ball, Ghost, Turtle, Point
 
 class TurtleHero(Turtle):

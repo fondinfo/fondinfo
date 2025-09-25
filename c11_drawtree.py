@@ -5,7 +5,7 @@
 """
 
 import g2d
-from c04_polar import move_around
+from polar import move_around
 
 def draw_tree(pos, length, angle):
     nxt = move_around(pos, length, angle)
