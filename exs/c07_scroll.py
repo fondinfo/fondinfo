@@ -7,7 +7,7 @@
 import sys; sys.path.append("../")
 import g2d
 from random import randrange
-from p32_bounce import Ball, Arena
+from c07_bounce import Ball, Arena
 
 # arena & actors aren't aware of view
 ARENA_W, ARENA_H = 500, 250
@@ -33,11 +33,11 @@ def tick():
         view_x = max(view_x - 10, 0)
 
     # translate background and sprites in view's coords
-    g2d.draw_image("viewport.png", (0, 0),
-                        (view_x, view_y), (VIEW_W, VIEW_H))
+    background = "http://fondinfo.github.io/images/games/viewport.png"
+    g2d.draw_image(background, (0, 0), (view_x, view_y), (VIEW_W, VIEW_H))
     for a in arena.actors():
         x, y = a.pos()
-        g2d.draw_image("ball.png", (x - view_x, y - view_y))
+        g2d.draw_image("../ball.png", (x - view_x, y - view_y))
     arena.tick()
 
 def main():
