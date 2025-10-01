@@ -6,7 +6,7 @@
 
 import g2d
 
-x, y, dx = 40, 40, 4
+x, y, dx = 80, 80, 4
 ARENA_W, ARENA_H = 480, 360
 
 def tick():
