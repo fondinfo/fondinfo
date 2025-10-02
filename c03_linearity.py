@@ -4,7 +4,7 @@
 @license This software is free - https://opensource.org/license/mit
 """
 
-n = int(input("Rounds? "))  # try with 5
+n = int(input("Rounds (>1)? "))  # try with 5
 
 first = float(input("First value? "))  # try with 10
 last = float(input("Last value? "))    # try with 15
