@@ -21,8 +21,8 @@ def from_polar(plr: Polar) -> Point:
     Convert from polar to cartesian coords
     """
     r, angle = plr
-    angle = radians(angle)
-    return (r * cos(angle), r * sin(angle))
+    a = radians(angle)
+    return (r * cos(a), r * sin(a))
 
 def move_around(start: Point, length: float, angle: float) -> Point:
     """
