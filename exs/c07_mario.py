@@ -24,26 +24,20 @@ class Mario(Actor):
         elif "ArrowLeft" in arena.current_keys():
              self._dx = -self._speed
         for other in arena.collisions():
-            wall_x, wall_y = other.pos()
-            wall_w, wall_h = other.size()
-            # am I above the platform, going down?
-            if self._y < wall_y and self._dy >= 0:
-                self._y = wall_y - self._h  # ⤓ landed
-                self._dy = 0
-                if "ArrowUp" in arena.current_keys():
-                    self._dy = self._jump  # jump
-            # am I below the platform, going up?
-            elif self._y + self._h > wall_y + wall_h and self._dy <= 0:
-                self._y = wall_y + wall_h + 1  # ⤒
-                self._dy = 0
-            # am I at left of the platform, going right?
-            elif self._x < wall_x and self._dx >= 0:
-                self._x = wall_x - self._w  # ⇥
-                self._dx = 0
-            # am I at right of the platform, going left?
-            elif self._x + self._w > wall_x + wall_w and self._dx <= 0:
-                self._x = wall_x + wall_w  # ⇤
-                self._dx = 0
+            sx, sy, sw, sh = self.pos() + self.size()  # self's pos
+            ox, oy, ow, oh = other.pos() + other.size()  # other's pos
+
+            # move to the nearest border: left, right, top or bottom
+            move_x = min(ox - sx - sw, ox + ow - sx, key=abs)
+            move_y = min(oy - sy - sh, oy + oh - sy, key=abs)
+            if abs(move_x) < abs(move_y):
+                self._x += move_x
+            else:
+                if move_y != 0:
+                    self._y += move_y
+                    self._dy = 0
+                if sy < oy and "ArrowUp" in arena.current_keys():  # if on top, can jump
+                    self._dy = self._jump
 
         arena_w, arena_h = arena.size()
         self._x = (self._x + self._dx) % arena_w
