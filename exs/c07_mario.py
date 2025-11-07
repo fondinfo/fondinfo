@@ -7,7 +7,6 @@
 import sys; sys.path.append("../")
 import g2d
 from actor import Actor, Arena
-from math import hypot
 
 class Mario(Actor):
     def __init__(self):
@@ -18,10 +17,11 @@ class Mario(Actor):
         self._gravity = 0.25
 
     def move(self, arena):
+        keys = arena.current_keys()
         self._dx = 0
-        if "ArrowRight" in arena.current_keys():
+        if "ArrowRight" in keys:
              self._dx = self._speed
-        elif "ArrowLeft" in arena.current_keys():
+        elif "ArrowLeft" in keys:
              self._dx = -self._speed
         for other in arena.collisions():
             sx, sy, sw, sh = self.pos() + self.size()  # self's pos
@@ -32,11 +32,10 @@ class Mario(Actor):
             move_y = min(oy - sy - sh, oy + oh - sy, key=abs)
             if abs(move_x) < abs(move_y):
                 self._x += move_x
-            else:
-                if move_y != 0:
-                    self._y += move_y
-                    self._dy = 0
-                if sy < oy and "ArrowUp" in arena.current_keys():  # if on top, can jump
+            elif move_y != 0:
+                self._y += move_y
+                self._dy = 0
+                if sy < oy and "ArrowUp" in keys:  # if on top, can jump
                     self._dy = self._jump
 
         arena_w, arena_h = arena.size()
