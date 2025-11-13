@@ -7,12 +7,12 @@
 T = int | list["T"]
 
 def count_tree(t: T) -> int:
+    if not isinstance(t, list):
+        return 1
+    # return sum(count_tree(v) for v in t)
     count = 0
-    if isinstance(t, int):
-        count += 1
-    else:
-        for v in t:
-            count += count_tree(v)
+    for v in t:
+        count += count_tree(v)
     return count
 
 tree = [[1, 2, [3, 4], [5]], 6]
