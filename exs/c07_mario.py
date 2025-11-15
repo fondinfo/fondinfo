@@ -32,6 +32,7 @@ class Mario(Actor):
             move_y = min(oy - sy - sh, oy + oh - sy, key=abs)
             if abs(move_x) < abs(move_y):
                 self._x += move_x
+                self._dx = 0
             elif move_y != 0:
                 self._y += move_y
                 self._dy = 0
