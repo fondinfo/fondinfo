@@ -13,7 +13,7 @@ html = """<!DOCTYPE html>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/BrowserFS/2.0.0/browserfs.min.js"></script>
     </head>
     <body>
-        <canvas id="g2d-canvas" style="border: 1px solid silver"></canvas>
+        <canvas id="g2d-canvas" style="background: white; border: 1px solid silver"></canvas>
         <br><textarea id="console" rows="5" cols="50" readonly style="border: 0"></textarea>
         <script>
         async function main() {
@@ -91,7 +91,7 @@ def init_canvas(size: Point, scale=1) -> None:
     if not (_canvas := js.document.getElementById("g2d-canvas")):
         _canvas = js.document.createElement("canvas")
         _canvas.setAttribute("id", "g2d-canvas")
-        _canvas.setAttribute("style", "background:white; border: 1px solid silver; position:absolute; z-index:100; right:40px; top:40px")
+        _canvas.setAttribute("style", "background:white; border:1px solid silver; position:absolute; z-index:100; right:40px; top:40px")
         js.document.body.prepend(_canvas)
     _ctx = _canvas.getContext("2d")
     _canvas.setAttribute("width", size[0] * scale)
