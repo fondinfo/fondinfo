@@ -20,7 +20,7 @@ class Ball:
         self._x += self._dx
         self._y += self._dy
 
-    def pos(self) -> (int, int):
+    def pos(self) -> tuple[int, int]:
         return self._x, self._y
 
 
