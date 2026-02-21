@@ -4,10 +4,10 @@
 @license This software is free - https://opensource.org/license/mit
 """
 
-from typing import Iterable
+from typing import Iterator
 from c12_expr import ops, Num, BinaryOp
 
-def to_infix(tokens: Iterable) -> str:
+def to_infix(tokens: Iterator) -> str:
     token = next(tokens)
 
     if token[0].isdigit():
@@ -17,7 +17,7 @@ def to_infix(tokens: Iterable) -> str:
         b = to_infix(tokens)
         return f"({a} {token} {b})"
 
-def evaluate(tokens: Iterable) -> float:
+def evaluate(tokens: Iterator) -> float:
     token = next(tokens)
 
     if token[0].isdigit():
@@ -28,7 +28,7 @@ def evaluate(tokens: Iterable) -> float:
         op = ops[token]
         return op(a, b)
 
-def parse(tokens: Iterable) -> float:
+def parse(tokens: Iterator) -> float:
     token = next(tokens)
 
     if token[0].isdigit():
