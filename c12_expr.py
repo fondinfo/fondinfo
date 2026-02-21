@@ -84,7 +84,7 @@ class Num(Expr):
 
 def main():
     prod1 = BinaryOp("*", Var("x"), Num(2))  #          *  (prod2)
-    sum1 = BinaryOp("+", Num(4), prod1)      #         / \
+    sum1 = BinaryOp("+", prod1, Num(4))      #         / \
     prod2 = BinaryOp("*", sum1, Num(5))      #        5   +  (sum1)
     print(prod2.eval({"x": 3}))              #           / \
     print(prod2.infix())                     # (prod1)  *   4
