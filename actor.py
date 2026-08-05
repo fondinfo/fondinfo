@@ -4,6 +4,8 @@
 @license This software is free - https://opensource.org/license/mit
 """
 
+from copy import deepcopy
+
 Point = tuple[float, float]
 
 class Actor:
@@ -83,7 +85,7 @@ class Arena():
         """Move all actors (through their own move method).
         """
         actors = list(reversed(self._actors))
-        self._detect_collisions(actors)
+        self._detect_collisions(deepcopy(actors))
         self._prev_keys = self._curr_keys
         self._curr_keys = keys
         for self._turn, a in enumerate(actors):
