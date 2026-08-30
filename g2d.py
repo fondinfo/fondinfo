@@ -10,7 +10,8 @@ import io, math, subprocess, sys
 try:
     import pygame as pg
 except:
-    subprocess.call([sys.executable, "-m", "pip", "install", "pygame",
+    package = "pygame-ce" if sys.version_info >= (3, 14) else "pygame"
+    subprocess.call([sys.executable, "-m", "pip", "install", package,
                      "--break-system-packages"])
     import pygame as pg
 
