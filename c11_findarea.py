@@ -20,7 +20,7 @@ def main():
 
     x = int(input("x? "))
     y = int(input("y? "))
-    v = int(input("v? "))
+    v = board[y][x] if 0 <= x < w and 0 <= y < h else None
     area = find_area(board, x, y, v)
     print(area)
 
