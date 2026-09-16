@@ -1,10 +1,8 @@
 def find_area(board, x, y, val, area=None):
     if area is None:
         area = set()
-    if y < 0 or y >= len(board) or x < 0 or x >= len(board[0]):
-        return area
-
-    if board[y][x] == val and (x, y) not in area:
+    h, w = len(board), len(board[0])
+    if 0 <= x < w and 0 <= y < h and board[y][x] == val and (x, y) not in area:
         area.add((x, y))  # area is a set of points
         for dx, dy in ((1, 0), (0, 1), (-1, 0), (0, -1)):
             find_area(board, x + dx, y + dy, val, area)
