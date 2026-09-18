@@ -11,14 +11,14 @@ Polar = tuple[float, float]  # Pt in polar coords (r, angle)
 
 def to_polar(pt: Point) -> Polar:
     """
-    Convert from cartesian to polar coords
+    Convert from cartesian to polar coords.
     """
     x, y = pt
     return (hypot(x, y), degrees(atan2(y, x)))
 
 def from_polar(plr: Polar) -> Point:
     """
-    Convert from polar to cartesian coords
+    Convert from polar to cartesian coords.
     """
     r, angle = plr
     a = radians(angle)
@@ -26,7 +26,7 @@ def from_polar(plr: Polar) -> Point:
 
 def move_around(start: Point, length: float, angle: float) -> Point:
     """
-    Move from `start` pt, by given `lenght` and `angle` (direction)
+    Move from `start` pt, by given `lenght` and `angle` (direction).
     """
     x0, y0 = start
     dx, dy = from_polar((length, angle))
@@ -34,15 +34,25 @@ def move_around(start: Point, length: float, angle: float) -> Point:
 
 def rotate(pt: Point, angle: float) -> Point:
     """
-    Rotate a point in cartesian coords by a given angle
+    Rotate a point in cartesian coords by a given angle.
     """
     r, a = to_polar(pt)
     return from_polar((r, a + angle))
 
 def vector(pt1: Point, pt2: Point) -> Point:
+    """
+    Calculate the distance vector from `pt1` to `pt2`.
+    """
     x1, y1 = pt1
     x2, y2 = pt2
     return (x2 - x1, y2 - y1)
+
+def coterminal(angle: float) -> float:
+    """
+    Calculate the coterminal angle, in the range [-180, 180].
+    Possible full rotations (±360°) in `angle` are eliminated.
+    """
+    return (angle + 180) % 360 - 180
 
 def main():
     pt0 = from_polar((2, 45))  # (√2, √2) ∡ 45°
