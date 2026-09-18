@@ -39,6 +39,11 @@ def rotate(pt: Point, angle: float) -> Point:
     r, a = to_polar(pt)
     return from_polar((r, a + angle))
 
+def vector(pt1: Point, pt2: Point) -> Point:
+    x1, y1 = pt1
+    x2, y2 = pt2
+    return (x2 - x1, y2 - y1)
+
 def main():
     pt0 = from_polar((2, 45))  # (√2, √2) ∡ 45°
     pt1 = rotate(pt0, 15)  # (1, √3) ∡ 60°
