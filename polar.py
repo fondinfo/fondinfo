@@ -31,7 +31,7 @@ def rotate(pt: Point, angle: float) -> Point:
     r, a = to_polar(pt)
     return from_polar((r, a + angle))
 
-def vector(pt1: Point, pt2: Point) -> Point:
+def dist_vec(pt1: Point, pt2: Point) -> Point:
     """
     Calculate the distance vector from `pt1` to `pt2`.
     """
