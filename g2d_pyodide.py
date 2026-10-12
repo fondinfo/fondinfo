@@ -80,14 +80,14 @@ _mouse_pos, _curr_keys, _prev_keys = (0, 0), set(), set()
 _mouse_codes = ["LeftButton", "MiddleButton", "RightButton"]
 _lclick, _rclick = False, False
 _delay, _last_frame = 1000 / 30, 0
-_stroke = 0
+_stroke, _scale = 0, 1
 _loaded = {}
 
 def _tup(t: tuple, vmin=-math.inf, vmax=math.inf) -> tuple:
     return tuple(min(max(round(v), vmin), vmax) for v in t)
 
 def init_canvas(size: Point, scale=1) -> None:
-    global _canvas, _ctx, _size
+    global _canvas, _ctx, _size, _scale
     if not (_canvas := js.document.getElementById("g2d-canvas")):
         _canvas = js.document.createElement("canvas")
         _canvas.setAttribute("id", "g2d-canvas")
@@ -97,6 +97,7 @@ def init_canvas(size: Point, scale=1) -> None:
     _canvas.setAttribute("width", size[0] * scale)
     _canvas.setAttribute("height", size[1] * scale)
     _ctx.scale(scale, scale)
+    _scale = scale
     clear_canvas()
     set_color((127, 127, 127))
     _curr_keys.clear()
@@ -287,7 +288,8 @@ def _g2d_mousemove(e: js.event) -> None:
     canvas = js.document.getElementById("g2d-canvas")
     if canvas != None:
         rect = canvas.getBoundingClientRect()
-        _mouse_pos = int(e.clientX - rect.left), int(e.clientY - rect.top)
+        _mouse_pos = (int(e.clientX - rect.left) // _scale,
+                      int(e.clientY - rect.top) // _scale)
 
 def _g2d_mousedown(e: js.event) -> None:
     e.key = _mouse_codes[min(e.button, 2)]

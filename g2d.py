@@ -23,7 +23,7 @@ _ws, _hs = _tkmain.winfo_screenwidth(), _tkmain.winfo_screenheight()
 _tkmain.geometry(f"+{_ws // 2}+{_hs // 2}")
 
 _canvas, _display, _tick = None, None, None
-_size, _stroke = (640, 480), 0
+_size, _stroke, _scale = (640, 480), 0, 1
 _color, _background = (127, 127, 127), (255, 255, 255)
 _mouse_pos, _mouse_down = (0, 0), 0
 _curr_keys, _prev_keys = set(), set()
@@ -34,13 +34,14 @@ def _tup(t: tuple, vmin=-math.inf, vmax=math.inf) -> tuple:
 
 def init_canvas(size: Point, scale=1):
     """Set size of first CANVAS and return it"""
-    global _canvas, _display, _draw, _size
+    global _canvas, _display, _draw, _size, _scale
     pg.init()
     _size = _tup(size)
     w, h = _size
     _display = pg.display.set_mode((w * scale, h * scale))
     _canvas = pg.Surface(_size, pg.SRCALPHA) if scale != 1 else _display
     _draw = pg.Surface(_size, pg.SRCALPHA)
+    _scale = scale
     clear_canvas()
 
 def canvas_size() -> Point:
@@ -211,7 +212,8 @@ def main_loop(tick=None, fps: int=30) -> None:
             elif e.type == pg.MOUSEBUTTONUP:
                 _curr_keys.discard(_mb_name(e.button))
         if _tick:
-            _mouse_pos = pg.mouse.get_pos()
+            mouse_x, mouse_y = pg.mouse.get_pos()
+            _mouse_pos = (mouse_x // _scale, mouse_y // _scale)
             _tick()
             update_canvas()
         clock.tick(fps)
