@@ -9,9 +9,9 @@ from random import choice
 
 class Fifteen(BoardGame):
     def __init__(self, w: int, h: int):
-        # init board with sorted tiles: [1 2 ... 14 15 0]
-        self._bd = list(range(1, w * h)) + [0]
-        self._x0, self._y0 = w - 1, h - 1  # blank
+        # init board with sorted tiles: [1 2 ... 14 15 16]
+        self._bd = list(range(1, w * h + 1))
+        self._x0, self._y0 = w - 1, h - 1  # blank is 16
         self._won = True
         self._w, self._h = w, h
 
@@ -24,19 +24,19 @@ class Fifteen(BoardGame):
         w, h, bd, x0, y0 = self._w, self._h, self._bd, self._x0, self._y0
         if 0 <= x < w and 0 <= y < h and abs(x-x0) + abs(y-y0) == 1:
             bd[y0 * w + x0] = bd[y * w + x]  # swap tiles
-            bd[y * w + x] = 0
+            bd[y * w + x] = w * h
             self._x0, self._y0 = x, y  # blank
             self._won = self._sorted()  # hint: use `all`, instead
 
     def _sorted(self) -> bool:
-        for i in range(self._w * self._h - 1):
-            if self._bd[i] != i + 1:
+        for i, v in enumerate(self._bd):
+            if v != i + 1:
                 return False
         return True
 
     def read(self, x: int, y: int) -> str:
         w, h, bd = self._w, self._h, self._bd
-        if 0 <= x < w and 0 <= y < h and bd[y * w + x]:
+        if 0 <= x < w and 0 <= y < h and bd[y * w + x] != w * h:
             return str(bd[y*w + x])
         return ""
 
@@ -57,6 +57,6 @@ class Fifteen(BoardGame):
 
 if __name__ == "__main__":
     from boardgamegui import gui_play
-    game = Fifteen(4, 4)
+    game = Fifteen(3, 3)
     ##console_play(game)
     gui_play(game)
