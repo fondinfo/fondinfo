@@ -5,7 +5,7 @@
 """
 
 def perf_square(n: int) -> tuple[bool, int]:
-    i = 1
+    i = 0
     while i * i < n:
         i += 1
 

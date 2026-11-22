@@ -7,8 +7,8 @@
 from random import randrange
 
 def shuffle(values: list):
-    for i, v in enumerate(values):
-        j = randrange(len(values))
+    for i in range(len(values)):
+        j = randrange(i, len(values))
         values[i], values[j] = values[j], values[i]
 
 data = list(range(10))

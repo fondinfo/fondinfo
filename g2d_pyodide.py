@@ -73,7 +73,7 @@ except:
     _archive_project()
 
 Point = tuple[float, float]
-Color = tuple[float, float, float]
+Color = tuple[float, float, float] | tuple[float, float, float, float]
 
 _canvas, _ctx, _usr_tick = None, None, None
 _mouse_pos, _curr_keys, _prev_keys = (0, 0), set(), set()
@@ -137,7 +137,7 @@ def draw_rect(pos: Point, size: Point) -> None:
     _ctx.strokeRect(*pos, *size) if _stroke else _ctx.fillRect(*pos, *size)
 
 def draw_text(text: str, center: Point, size: int) -> None:
-    _ctx.font = str(size) + "px sans-serif";
+    _ctx.font = str(size) + "px sans-serif"
     _ctx.textBaseline = "middle"
     _ctx.textAlign = "center"
     #_ctx.strokeText(txt, *center) if _stroke else _ctx.fillText(txt, *center)

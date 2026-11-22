@@ -7,7 +7,7 @@
 
 ### Basic structs
 
-- A `Color` is a tuple `(red, green, blue)`; each value must be in the range `0..255`
+- A `Color` is a tuple `(red, green, blue)`, or `(red, green, blue, alpha)`; each value must be in the range `0..255`
 - A `Point` is a tuple `(x, y)`, representing a *position* or a *size*
 
 ### Canvas functions
@@ -19,7 +19,7 @@
 
 ### Drawing functions
 
-- **`set_color`** `(color: Color, width: float=0)` : Set the drawing color; optionally, set the stroke width for outlining shapes, instead of filling them
+- **`set_color`** `(color: Color, width: float=0)` : Set the drawing color, possibly semi-transparent; optionally, set the stroke width for outlining shapes, instead of filling them
 - **`draw_line`** `(pt1: Point, pt2: Point)` : Draw a line from `pt1` to `pt2`
 - **`draw_circle`** `(center: Point, radius: float)` : Fill a circle, given `center` and `radius`
 - **`draw_rect`** `(pos: Point, size: Point)` : Fill a rectangle, given left-top position and size
@@ -50,5 +50,5 @@
 
 http://fondinfo.github.io
 
-Copyleft (ɔ) 2008-2024 Michele Tomaiuolo - https://tomamic.github.io/ <br>
+Copyleft (ɔ) 2008-2026 Michele Tomaiuolo - https://tomamic.github.io/ <br>
 This software is free - https://opensource.org/license/mit

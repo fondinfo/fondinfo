@@ -15,7 +15,7 @@ except:
     import pygame as pg
 
 Point = tuple[float, float]
-Color = tuple[float, float, float]
+Color = tuple[float, float, float] | tuple[float, float, float, float]
 
 _tkmain = Tk()
 _tkmain.withdraw()  # hide the main window
@@ -55,6 +55,7 @@ def set_color(color: Color, width: float=0) -> None:
 def clear_canvas(background: Color=None) -> None:
     global _background
     if background:
+        # background alpha is ignored here, unlike in g2d_pyodide.py
         _background = background
     _canvas.fill(_background)
 
@@ -98,7 +99,7 @@ def draw_text(text: str, center: Point, size: int) -> None:
     fname, fonts = "segoeuisymbol", pg.font.get_fonts()
     fname = fname if fname in fonts else "freesansbold"
     font = pg.font.SysFont(fname, int(size))
-    surface = font.render(text, True, _color)
+    surface = font.render(text, True, _color[:3])
     if len(_color) > 3 and _color[3] != 255:
         surface.set_alpha(_color[3])
     (x, y), (w, h) = _tup(center), surface.get_size()

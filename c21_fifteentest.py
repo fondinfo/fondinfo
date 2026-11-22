@@ -30,9 +30,6 @@ def blank(game: BoardGame) -> tuple[int, int]:
 class FifteenTest(unittest.TestCase):
     """Tests of the game Fifteen."""
 
-    def make_game(self, w: int, h: int) -> BoardGame:
-        raise NotImplementedError("Abstract method")
-
     def test_shuffled_board(self):
         for w, h in [(2, 2), (3, 2), (4, 4)]:
             with self.subTest(size=(w, h)):

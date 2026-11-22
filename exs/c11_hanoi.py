@@ -13,7 +13,7 @@ def print_towers(towers: list):
 def move_towers(towers: list, n: int, src: int, tmp: int, dst: int):
     # if there are discs above, move n-1 away
     if n > 1:
-        move_towers(towers, n - 1, src, dst, tmp);
+        move_towers(towers, n - 1, src, dst, tmp)
 
     # now move the largest disc (of n) to its dest
     top_disc = towers[src].pop()

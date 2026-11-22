@@ -49,13 +49,13 @@ def advance(pt: Point, vec: Point) -> Point:
 
 def move_around(start: Point, length: float, angle: float) -> Point:
     """
-    Move from `start` pt, by given `lenght` and `angle` (direction).
+    Move from `start` pt, by given `length` and `angle` (direction).
     """
     return advance(start, from_polar((length, angle)))
 
 def coterminal(angle: float) -> float:
     """
-    Calculate the coterminal angle, in the range [-180, 180].
+    Calculate the coterminal angle, in the range [-180, 180).
     Possible full rotations (±360°) in `angle` are eliminated.
     """
     return (angle + 180) % 360 - 180
