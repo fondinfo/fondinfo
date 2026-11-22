@@ -22,7 +22,7 @@ _tkmain.withdraw()  # hide the main window
 _ws, _hs = _tkmain.winfo_screenwidth(), _tkmain.winfo_screenheight()
 _tkmain.geometry(f"+{_ws // 2}+{_hs // 2}")
 
-_canvas, _display, _tick = None, None, None
+_canvas, _display, _draw, _tick = None, None, None, None
 _size, _stroke, _scale = (640, 480), 0, 1
 _color, _background = (127, 127, 127), (255, 255, 255)
 _mouse_pos, _mouse_down = (0, 0), 0
@@ -42,7 +42,12 @@ def init_canvas(size: Point, scale=1):
     _canvas = pg.Surface(_size, pg.SRCALPHA) if scale != 1 else _display
     _draw = pg.Surface(_size, pg.SRCALPHA)
     _scale = scale
+    set_color((127, 127, 127))
     clear_canvas()
+
+def _check_canvas() -> None:
+    if _canvas is None:
+        raise RuntimeError("Call init_canvas() first")
 
 def canvas_size() -> Point:
     return _size
@@ -54,6 +59,7 @@ def set_color(color: Color, width: float=0) -> None:
 
 def clear_canvas(background: Color=None) -> None:
     global _background
+    _check_canvas()
     if background:
         # background alpha is ignored here, unlike in g2d_pyodide.py
         _background = background
@@ -69,6 +75,7 @@ def update_canvas() -> None:
     pg.time.wait(0)
 
 def drawing_surface() -> pg.Surface:
+    _check_canvas()
     if len(_color) > 3 and _color[3] != 255:
         _draw.fill((0, 0, 0, 0))
         return _draw
@@ -96,6 +103,7 @@ def draw_rect(pos: Point, size: Point) -> None:
     blit_drawing_surface()
 
 def draw_text(text: str, center: Point, size: int) -> None:
+    _check_canvas()
     fname, fonts = "segoeuisymbol", pg.font.get_fonts()
     fname = fname if fname in fonts else "freesansbold"
     font = pg.font.SysFont(fname, int(size))
@@ -123,6 +131,7 @@ def load_image(src: str) -> str:
 
 def draw_image(src: str, pos: Point,
                clip_pos: Point=None, clip_size: Point=None) -> None:
+    _check_canvas()
     area = None
     if clip_pos and clip_size:
         area=_tup(clip_pos) + _tup(clip_size)
@@ -195,6 +204,7 @@ def key_released(key: str) -> bool:
 
 def main_loop(tick=None, fps: int=30) -> None:
     global _mouse_pos, _tick
+    _check_canvas()
     _tick = tick
     clock = pg.time.Clock()
     update_canvas()

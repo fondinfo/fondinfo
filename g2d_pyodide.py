@@ -75,7 +75,13 @@ except:
 Point = tuple[float, float]
 Color = tuple[float, float, float] | tuple[float, float, float, float]
 
-_canvas, _ctx, _usr_tick = None, None, None
+class _NoCanvas:
+    def __getattr__(self, name):
+        raise RuntimeError("Call init_canvas() first")
+    def __setattr__(self, name, value):
+        raise RuntimeError("Call init_canvas() first")
+
+_canvas, _ctx, _usr_tick = None, _NoCanvas(), None
 _mouse_pos, _curr_keys, _prev_keys = (0, 0), set(), set()
 _mouse_codes = ["LeftButton", "MiddleButton", "RightButton"]
 _lclick, _rclick = False, False
@@ -87,7 +93,7 @@ def _tup(t: tuple, vmin=-math.inf, vmax=math.inf) -> tuple:
     return tuple(min(max(round(v), vmin), vmax) for v in t)
 
 def init_canvas(size: Point, scale=1) -> None:
-    global _canvas, _ctx, _size, _scale
+    global _canvas, _ctx, _scale
     if not (_canvas := js.document.getElementById("g2d-canvas")):
         _canvas = js.document.createElement("canvas")
         _canvas.setAttribute("id", "g2d-canvas")
@@ -110,12 +116,12 @@ def set_color(color: Color, width: float=0) -> None:
     _ctx.fillStyle = _ctx.strokeStyle
 
 def clear_canvas(background: Color=None) -> None:
+    _ctx.clearRect(0, 0, _canvas.width, _canvas.height)
     if background:
         c = _tup(background, 0, 255) + (255,)
         style = _canvas.getAttribute("style")
         style = "background:rgba" + str(c[:3] + (c[3] / 255,)) + ";" + style.split(";", 1)[1]
         _canvas.setAttribute("style", style)
-    _ctx.clearRect(0, 0, _canvas.width, _canvas.height)
 
 def draw_line(pt1: Point, pt2: Point, width=1) -> None:
     _ctx.lineWidth = max(_stroke, width)
